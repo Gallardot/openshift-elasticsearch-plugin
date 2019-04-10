@@ -55,7 +55,7 @@ public class OpenshiftAPIServiceTest {
 
     @Rule
     public OpenShiftServer apiServer = new OpenShiftServer();
-    private OpenshiftAPIService service = new OpenshiftAPIService();
+    private OpenshiftAPIService service = new OpenshiftAPIService(60 * 1000);
 
     @Before
     public void setup() {
@@ -121,7 +121,7 @@ public class OpenshiftAPIServiceTest {
         when(okClient.newCall(any(Request.class))).thenAnswer(answer);
         when(call.execute()).thenReturn(response);
         
-        service = new OpenshiftAPIService(factory );
+        service = new OpenshiftAPIService(60 * 1000, factory );
         
         assertTrue(service.localSubjectAccessReview("sometoken", "openshift-logging", "get", "pod/metrics", null, ArrayUtils.EMPTY_STRING_ARRAY));
         Buffer buffer = new Buffer();
@@ -155,7 +155,7 @@ public class OpenshiftAPIServiceTest {
         when(okClient.newCall(any(Request.class))).thenAnswer(answer);
         when(call.execute()).thenReturn(response);
         
-        service = new OpenshiftAPIService(factory );
+        service = new OpenshiftAPIService(60 * 1000, factory );
         
         assertTrue(service.localSubjectAccessReview("sometoken", "openshift-logging", "get", "/metrics", null, ArrayUtils.EMPTY_STRING_ARRAY));
         Buffer buffer = new Buffer();
